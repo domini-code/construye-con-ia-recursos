@@ -1,6 +1,6 @@
 # Recursos del Curso — Construye con IA: De la Idea al Producto con Claude
 
-Recursos descargables del curso [**Construye con IA: De la Idea al Producto con Claude**](https://dominicode.com) en Udemy, impartido por Bezael Pérez / [DominiCode](https://dominicode.com).
+Recursos descargables del curso [**Construye con IA: De la Idea al Producto con Claude**](https://www.udemy.com/course/construye-con-ia-de-la-idea-al-producto-con-claude-code/?referralCode=AECD9EA3796054DEDD5D) en Udemy, impartido por Bezael Pérez / [DominiCode](https://dominicode.com).
 
 ---
 
@@ -30,8 +30,10 @@ Todos los recursos que usarás durante el curso: plantillas, ejercicios por mód
 │   └── ejercicios.md                — Ejercicios de deploy en Vercel
 ├── modulo-06-seguridad/
 │   └── ejercicios.md                — Ejercicios de seguridad con IA
-└── cheatsheets/
-    └── claude-code-commands.html    — Referencia rápida de comandos de Claude Code (imprimible)
+├── cheatsheets/
+│   └── cheatsheet-claude-code.pdf    — Referencia rápida de comandos de Claude Code (imprimible)
+└── demo/
+    └── demo-retrofit-gastos/         — App de ejemplo usada en el curso (React + Vite + TypeScript)
 ```
 
 ---
@@ -45,6 +47,7 @@ La plantilla más importante del curso. La usarás antes de escribir una sola l�
 [→ Ver plantilla](./plantillas/spec-first-template.md)
 
 Incluye las 6 secciones de una especificación técnica completa:
+
 1. Visión del producto
 2. Usuarios y casos de uso
 3. Funcionalidades
@@ -56,15 +59,15 @@ Incluye las 6 secciones de una especificación técnica completa:
 
 ## Ejercicios por módulo
 
-| Módulo | Tema | Ejercicios |
-|--------|------|-----------|
-| 0 — Setup | Bienvenida y configuración del entorno | [→ Ver](./modulo-00-setup/ejercicios.md) |
-| 1 — Spec-First | El método que cambia cómo trabajas con IA | [→ Ver](./modulo-01-spec-first/ejercicios.md) |
-| 2 — Arquitectura | Diseño del proyecto antes de construir | [→ Ver](./modulo-02-arquitectura/ejercicios.md) |
-| 3 — Backend | El motor de specs: API Route + Claude | [→ Ver](./modulo-03-backend/ejercicios.md) |
-| 4 — Frontend | La interfaz del AI Spec Builder | [→ Ver](./modulo-04-frontend/ejercicios.md) |
-| 5 — Deploy | Tu herramienta en producción con Vercel | [→ Ver](./modulo-05-deploy/ejercicios.md) |
-| 6 — Seguridad | Protege tu app con IA | [→ Ver](./modulo-06-seguridad/ejercicios.md) |
+| Módulo           | Tema                                      | Ejercicios                                      |
+| ---------------- | ----------------------------------------- | ----------------------------------------------- |
+| 0 — Setup        | Bienvenida y configuración del entorno    | [→ Ver](./modulo-00-setup/ejercicios.md)        |
+| 1 — Spec-First   | El método que cambia cómo trabajas con IA | [→ Ver](./modulo-01-spec-first/ejercicios.md)   |
+| 2 — Arquitectura | Diseño del proyecto antes de construir    | [→ Ver](./modulo-02-arquitectura/ejercicios.md) |
+| 3 — Backend      | El motor de specs: API Route + Claude     | [→ Ver](./modulo-03-backend/ejercicios.md)      |
+| 4 — Frontend     | La interfaz del AI Spec Builder           | [→ Ver](./modulo-04-frontend/ejercicios.md)     |
+| 5 — Deploy       | Tu herramienta en producción con Vercel   | [→ Ver](./modulo-05-deploy/ejercicios.md)       |
+| 6 — Seguridad    | Protege tu app con IA                     | [→ Ver](./modulo-06-seguridad/ejercicios.md)    |
 
 ---
 
@@ -74,7 +77,19 @@ Incluye las 6 secciones de una especificación técnica completa:
 
 Referencia rápida de los comandos y patterns de Claude Code que más vas a usar durante el curso.
 
-[→ Ver cheatsheet](./cheatsheets/claude-code-commands.html)
+[→ Ver cheatsheet](./cheatsheets/cheatsheet-claude-code.pdf)
+
+---
+
+## App de demo: Gastos de Viaje
+
+La app que usamos en el curso para practicar el **retrofit con IA** — tomar una app existente sin spec y aplicarle el método Spec-First.
+
+Registra gastos de grupo en un viaje, calcula cuánto debe cada persona y genera la lista mínima de transferencias para saldar las deudas.
+
+**Stack:** React 19 + TypeScript + Vite + localStorage (sin backend, sin login)
+
+[→ Ver demo](./demo/demo-retrofit-gastos/)
 
 ---
 
@@ -84,7 +99,7 @@ Durante el curso construyes el **AI Spec Builder** — una herramienta web que g
 
 **Stack:** Next.js + React + Tailwind CSS + Anthropic SDK + Vercel
 
-Repo del proyecto: [dominicode/ai-spec-builder](https://github.com/dominicode/ai-spec-builder)
+Repo del proyecto: [domini-code/ai-spec-builder](https://github.com/domini-code/ai-spec-builder)
 
 ---
 
@@ -133,4 +148,4 @@ Los recursos de este repo son para uso personal de los estudiantes del curso. No
 
 ---
 
-*Bezael Pérez — DominiCode*
+_Bezael Pérez — DominiCode_
