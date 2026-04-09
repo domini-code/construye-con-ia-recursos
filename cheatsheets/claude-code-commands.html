@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude Code — Comandos Esenciales</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @page { size: A4 landscape; margin: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #080808;
+      color: #e8e8e8;
+    }
+
+    /* ── PAGE ── */
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: #0d0d0d;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+      page-break-after: always;
+    }
+    .page:last-child { page-break-after: avoid; }
+
+    /* ── HEADER ── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 28px 11px;
+      border-bottom: 1px solid #1e1e1e;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .brand {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .page-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .page-title span { color: #d97706; }
+
+    .page-subtitle {
+      font-size: 11px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .badge {
+      font-size: 9.5px;
+      font-weight: 600;
+      background: #161616;
+      border: 1px solid #222;
+      color: #666;
+      padding: 3px 10px;
+      border-radius: 99px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 28px;
+      border-top: 1px solid #161616;
+      background: #0a0a0a;
+    }
+
+    .page-footer span { font-size: 9px; color: #3a3a3a; }
+    .page-footer .url {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: #d97706;
+    }
+    .page-footer .pg {
+      font-size: 9px;
+      color: #3a3a3a;
+    }
+
+    /* ── GRID ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 16px 28px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      padding: 16px 28px;
+    }
+
+    .col { padding: 0 16px; }
+    .col:first-child { padding-left: 0; }
+    .col:last-child  { padding-right: 0; }
+    .col + .col      { border-left: 1px solid #1a1a1a; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 14px; }
+    .section:last-child { margin-bottom: 0; }
+
+    .section-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #d97706;
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1e1e1e;
+    }
+    .section-label.green  { color: #4ade80; }
+    .section-label.blue   { color: #60a5fa; }
+    .section-label.purple { color: #a78bfa; }
+
+    /* ── CMD ROW ── */
+    .cmd-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      margin-bottom: 6px;
+    }
+
+    .cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #f9fafb;
+      background: #141414;
+      border: 1px solid #252525;
+      border-radius: 5px;
+      padding: 2px 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: 118px;
+      text-align: left;
+    }
+
+    .cmd.wide { min-width: 140px; }
+    .cmd.narrow { min-width: 90px; }
+
+    .cmd-desc {
+      font-size: 10.5px;
+      color: #7a8394;
+      line-height: 1.45;
+      padding-top: 3px;
+    }
+    .cmd-desc strong { color: #c9d1dc; font-weight: 500; }
+
+    /* ── KEY ── */
+    .key {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 600;
+      background: #1a1a1a;
+      border: 1px solid #2e2e2e;
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      padding: 2px 8px;
+      color: #e5e7eb;
+      white-space: nowrap;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+
+    /* ── BOXES ── */
+    .highlight-box {
+      background: #0f0e0c;
+      border: 1px solid #2a2318;
+      border-left: 3px solid #d97706;
+      border-radius: 7px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+    .highlight-box .box-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #d97706;
+      margin-bottom: 7px;
+    }
+    .highlight-box p {
+      font-size: 10.5px;
+      color: #7a8394;
+      line-height: 1.55;
+    }
+    .highlight-box p strong { color: #e5e7eb; font-weight: 600; }
+    .highlight-box p + p { margin-top: 7px; }
+
+    .tip-box {
+      background: #0b150b;
+      border: 1px solid #182818;
+      border-left: 3px solid #4ade80;
+      border-radius: 7px;
+      padding: 11px 14px;
+      margin-top: 10px;
+    }
+    .tip-box .box-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 6px;
+    }
+    .tip-box p {
+      font-size: 10.5px;
+      color: #5a8c6a;
+      line-height: 1.55;
+    }
+    .tip-box p strong { color: #86efac; font-weight: 500; }
+    .tip-box code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      background: #182818;
+      color: #86efac;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    .info-box {
+      background: #0b0f1a;
+      border: 1px solid #1a2035;
+      border-left: 3px solid #60a5fa;
+      border-radius: 7px;
+      padding: 11px 14px;
+    }
+    .info-box .box-label {
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 7px;
+    }
+    .info-box p {
+      font-size: 10.5px;
+      color: #5a7a9c;
+      line-height: 1.55;
+    }
+    .info-box p strong { color: #93c5fd; font-weight: 500; }
+    .info-box p + p { margin-top: 6px; }
+
+    /* ── DIVIDER ── */
+    .h-divider {
+      height: 1px;
+      background: #1a1a1a;
+      margin: 12px 0;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     PÁGINA 1 — COMANDOS NATIVOS
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div class="header-left">
+      <span class="brand">DominiCode</span>
+      <span class="page-title">Claude Code — <span>Comandos Nativos</span></span>
+      <span class="page-subtitle">Referencia rápida · Construye con IA</span>
+    </div>
+    <span class="badge">1 / 3</span>
+  </div>
+
+  <div class="grid-3">
+
+    <!-- COL 1: Sesión y contexto -->
+    <div class="col">
+      <div class="section">
+        <div class="section-label">Sesión y contexto</div>
+
+        <div class="cmd-row">
+          <span class="cmd">/help</span>
+          <span class="cmd-desc">Lista todos los comandos disponibles con descripción</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/clear</span>
+          <span class="cmd-desc"><strong>Limpia el contexto</strong> de la sesión — útil cuando Claude pierde el hilo o mezcla tareas</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/compact</span>
+          <span class="cmd-desc"><strong>Comprime el historial</strong> de la conversación para liberar contexto sin perder el hilo</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/cost</span>
+          <span class="cmd-desc">Muestra el coste estimado de tokens consumidos en la sesión actual</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/status</span>
+          <span class="cmd-desc">Muestra el estado actual de Claude Code: modelo activo, permisos y configuración</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/logout</span>
+          <span class="cmd-desc">Cierra la sesión de tu cuenta de Anthropic en el CLI</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/login</span>
+          <span class="cmd-desc">Inicia sesión o cambia a otra cuenta de Anthropic</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2: Modelo y configuración -->
+    <div class="col">
+      <div class="section">
+        <div class="section-label">Modelo y configuración</div>
+
+        <div class="cmd-row">
+          <span class="cmd">/model</span>
+          <span class="cmd-desc"><strong>Cambia el modelo</strong> en mitad de sesión sin perder el contexto</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd-desc" style="padding-top:0; padding-left: 4px; padding-bottom: 4px; color:#555; font-size:10px;">
+            → <span style="color:#888">Sonnet</span> para código y razonamiento &nbsp;·&nbsp; <span style="color:#888">Haiku</span> para tareas simples y rápidas
+          </span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/config</span>
+          <span class="cmd-desc">Abre la configuración del CLI — permisos, preferencias, atajos</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/permissions</span>
+          <span class="cmd-desc">Muestra y gestiona qué acciones puede ejecutar Claude en tu sistema</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/doctor</span>
+          <span class="cmd-desc">Diagnóstico del entorno: verifica Node.js, versión del CLI y dependencias</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/terminal-setup</span>
+          <span class="cmd-desc">Configura la integración con el shell para atajos y autocompletado</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/vim</span>
+          <span class="cmd-desc">Activa el modo vim para navegar el historial con j/k y comandos de vim</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/bug</span>
+          <span class="cmd-desc">Reporta un bug directamente a Anthropic desde el CLI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3: Código y proyecto -->
+    <div class="col">
+      <div class="section">
+        <div class="section-label">Código y proyecto</div>
+
+        <div class="cmd-row">
+          <span class="cmd">/simplify</span>
+          <span class="cmd-desc"><strong>Revisa y simplifica</strong> el código generado sin cambiar el comportamiento — úsalo antes de hacer commit</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/review</span>
+          <span class="cmd-desc">Solicita una revisión del código: detecta bugs, inconsistencias y mejoras antes de continuar</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/init</span>
+          <span class="cmd-desc"><strong>Crea o actualiza el CLAUDE.md</strong> del proyecto — Claude analiza el repo y genera el contexto</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/memory</span>
+          <span class="cmd-desc">Visualiza y edita la <strong>memoria persistente</strong> de Claude: lo que recuerda entre sesiones</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd">/pr_comments</span>
+          <span class="cmd-desc">Lee y resume los comentarios de un Pull Request directamente desde el CLI</span>
+        </div>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <div class="section">
+        <div class="section-label blue">Instalar CLI</div>
+        <div class="cmd-row">
+          <span class="cmd-desc" style="padding-top:0; font-family:'JetBrains Mono',monospace; font-size:10px; color:#60a5fa; background:#0b0f1a; border:1px solid #1a2035; padding: 5px 10px; border-radius:5px; width:100%; display:block;">
+            npm install -g @anthropic-ai/claude-code
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <span>Recurso del curso · Construye con IA: De la Idea al Producto con Claude</span>
+    <span class="pg">Página 1 de 3 — Comandos Nativos</span>
+    <span class="url">dominicode.com</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PÁGINA 2 — PLAN MODE + ATAJOS + VSC
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div class="header-left">
+      <span class="brand">DominiCode</span>
+      <span class="page-title">Claude Code — <span>Plan Mode, Atajos y VS Code</span></span>
+      <span class="page-subtitle">Referencia rápida · Construye con IA</span>
+    </div>
+    <span class="badge">2 / 3</span>
+  </div>
+
+  <div class="grid-3">
+
+    <!-- COL 1: Plan Mode -->
+    <div class="col">
+      <div class="section-label">Plan Mode</div>
+
+      <div class="highlight-box" style="margin-top:9px;">
+        <div class="box-label">Qué es</div>
+        <p>
+          Claude presenta un <strong>plan de acción completo antes de ejecutar</strong> cualquier cambio.
+          Puedes leerlo, corregirlo y aprobarlo antes de que toque un solo archivo.
+        </p>
+        <p>
+          Ideal para tareas grandes, cambios en múltiples archivos u operaciones difíciles de revertir.
+        </p>
+      </div>
+
+      <div class="section" style="margin-top:14px;">
+        <div class="section-label">Cómo activarlo</div>
+        <div class="cmd-row">
+          <span class="key">Shift + Tab</span>
+          <span class="cmd-desc">Alterna el plan mode on/off desde la terminal</span>
+        </div>
+        <div class="cmd-row" style="margin-top:4px;">
+          <span class="cmd-desc" style="padding-top:0; color:#555;">
+            También puedes pedir a Claude: <em style="color:#888">"antes de hacer nada, muéstrame el plan"</em>
+          </span>
+        </div>
+      </div>
+
+      <div class="section" style="margin-top:12px;">
+        <div class="section-label">Flujo recomendado</div>
+        <div style="font-size:10.5px; color:#555; line-height:2;">
+          <span style="color:#d97706;">01</span> &nbsp;Activa plan mode &nbsp;<span style="color:#2a2a2a">──</span>&nbsp; <span class="key" style="font-size:9px;">Shift+Tab</span><br/>
+          <span style="color:#d97706;">02</span> &nbsp;Escribe tu petición en lenguaje natural<br/>
+          <span style="color:#d97706;">03</span> &nbsp;Claude muestra el plan — revísalo<br/>
+          <span style="color:#d97706;">04</span> &nbsp;Aprueba, corrige o cancela antes de ejecutar<br/>
+          <span style="color:#d97706;">05</span> &nbsp;Desactiva plan mode para ajustes menores
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2: Atajos de teclado -->
+    <div class="col">
+      <div class="section">
+        <div class="section-label purple">Atajos de teclado</div>
+
+        <div class="cmd-row">
+          <span class="key">Escape</span>
+          <span class="cmd-desc"><strong>Cancela</strong> la generación en curso o vuelve al prompt anterior</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">Ctrl + C</span>
+          <span class="cmd-desc"><strong>Interrumpe</strong> inmediatamente lo que Claude está ejecutando</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">↑ / ↓</span>
+          <span class="cmd-desc">Navega el historial de prompts de la sesión actual</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">Ctrl + R</span>
+          <span class="cmd-desc">Búsqueda inversa en el historial — escribe para filtrar prompts anteriores</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">Tab</span>
+          <span class="cmd-desc">Autocompletado de comandos y rutas de archivo</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">Shift + Tab</span>
+          <span class="cmd-desc">Alterna el <strong>plan mode</strong> on/off</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">Ctrl + L</span>
+          <span class="cmd-desc">Limpia la pantalla de la terminal (equivalente a <code style="font-size:9.5px; background:#1a1a1a; padding:1px 4px; border-radius:3px;">/clear</code>)</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">Ctrl + D</span>
+          <span class="cmd-desc">Cierra la sesión de Claude Code y sale del CLI</span>
+        </div>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <div class="section">
+        <div class="section-label purple">Modo multi-línea</div>
+        <div class="cmd-row">
+          <span class="key">\ + Enter</span>
+          <span class="cmd-desc">Continúa el prompt en la línea siguiente — para instrucciones largas</span>
+        </div>
+        <div class="cmd-row">
+          <span class="key">Ctrl + J</span>
+          <span class="cmd-desc">Alternativa para insertar salto de línea en el prompt sin enviarlo</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3: Extensión VS Code -->
+    <div class="col">
+      <div class="section">
+        <div class="section-label blue">Extensión VS Code</div>
+
+        <div class="info-box" style="margin-top:4px;">
+          <div class="box-label">Instalación</div>
+          <p>
+            Abre VS Code → Extensions (<strong>Ctrl+Shift+X</strong>) →
+            busca <strong>"Claude Code"</strong> → Install.
+          </p>
+          <p style="margin-top:6px; color:#3a5a7a;">
+            O desde la terminal:
+          </p>
+          <div style="font-family:'JetBrains Mono',monospace; font-size:9.5px; color:#60a5fa; background:#0a0d15; border:1px solid #1a2035; padding:5px 10px; border-radius:5px; margin-top:6px;">
+            code --install-extension anthropic.claude-code
+          </div>
+        </div>
+      </div>
+
+      <div class="section" style="margin-top:14px;">
+        <div class="section-label blue">Qué añade la extensión</div>
+
+        <div class="cmd-row">
+          <span class="cmd-desc" style="padding-top:0;">
+            <strong>Estado en tiempo real</strong> — ves qué está haciendo Claude Code sin salir del editor
+          </span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd-desc">
+            <strong>Diff visual</strong> — revisa cada cambio en archivos con el visor de diferencias de VS Code
+          </span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd-desc">
+            <strong>Historial de sesión</strong> — navega los cambios generados en la sesión actual
+          </span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd-desc">
+            <strong>Terminal integrada</strong> — lanza Claude Code desde VS Code con un panel dedicado
+          </span>
+        </div>
+        <div class="cmd-row" style="margin-top:4px;">
+          <span class="cmd-desc" style="color:#3a4a5a; font-size:10px;">
+            La terminal sigue siendo el centro de trabajo. La extensión complementa la experiencia visual.
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <span>Recurso del curso · Construye con IA: De la Idea al Producto con Claude</span>
+    <span class="pg">Página 2 de 3 — Plan Mode, Atajos y VS Code</span>
+    <span class="url">dominicode.com</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PÁGINA 3 — SKILLS PERSONALIZADAS
+════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <div class="header-left">
+      <span class="brand">DominiCode</span>
+      <span class="page-title">Claude Code — <span>Skills Personalizadas</span></span>
+      <span class="page-subtitle">Referencia rápida · Construye con IA</span>
+    </div>
+    <span class="badge">3 / 3</span>
+  </div>
+
+  <div class="grid-3">
+
+    <!-- COL 1: Cómo funcionan -->
+    <div class="col">
+      <div class="section-label green">Cómo funcionan las Skills</div>
+
+      <div class="tip-box" style="margin-top:9px; margin-bottom:14px;">
+        <div class="box-label">Qué es una skill</div>
+        <p>
+          Un archivo Markdown en <code>.claude/skills/</code> que se convierte en un <strong>comando personalizado</strong>.
+          Cuando escribes <code>/nombre</code>, Claude ejecuta exactamente lo que está en ese archivo.
+        </p>
+        <p style="margin-top:7px;">
+          El contenido es lenguaje natural — ya sabes cómo escribirlo.
+          Es una <strong>especificación para un comando</strong>.
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="section-label green">Skills de proyecto</div>
+        <div class="cmd-row">
+          <span class="cmd-desc" style="padding-top:0; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:#4ade80; background:#0b150b; border:1px solid #182818; padding:4px 10px; border-radius:5px; display:block; width:100%;">
+            .claude/skills/nombre.md
+          </span>
+        </div>
+        <div class="cmd-row" style="margin-top:4px;">
+          <span class="cmd-desc">Solo funcionan dentro del proyecto. Si subes el repo, cualquier colaborador las hereda automáticamente.</span>
+        </div>
+      </div>
+
+      <div class="section" style="margin-top:10px;">
+        <div class="section-label green">Skills globales</div>
+        <div class="cmd-row">
+          <span class="cmd-desc" style="padding-top:0; font-family:'JetBrains Mono',monospace; font-size:9.5px; color:#4ade80; background:#0b150b; border:1px solid #182818; padding:4px 10px; border-radius:5px; display:block; width:100%;">
+            ~/.claude/skills/nombre.md
+          </span>
+        </div>
+        <div class="cmd-row" style="margin-top:4px;">
+          <span class="cmd-desc">Disponibles en cualquier proyecto que abras. Son tu caja de herramientas personal de Claude Code.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 2: Skills del curso (proyecto) -->
+    <div class="col">
+      <div class="section">
+        <div class="section-label green">Skills del proyecto — AI Spec Builder</div>
+
+        <div class="cmd-row">
+          <span class="cmd wide">/revisar</span>
+          <span class="cmd-desc">Lee el CLAUDE.md y la spec, revisa los archivos modificados y <strong>lista inconsistencias</strong> entre código y especificación</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd wide">/commit</span>
+          <span class="cmd-desc">Revisa los cambios staged y genera un <strong>commit con formato Conventional Commits</strong> automáticamente</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd wide">/explicar</span>
+          <span class="cmd-desc">Resume en <strong>lenguaje no técnico</strong> qué hizo Claude en la última sesión y lo relaciona con la spec</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd wide">/spec-check</span>
+          <span class="cmd-desc">Analiza las 6 secciones de la spec buscando <strong>contradicciones e inconsistencias</strong> antes de construir</span>
+        </div>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <div class="section">
+        <div class="section-label green">Skills globales del curso</div>
+
+        <div class="cmd-row">
+          <span class="cmd wide">/nuevo-proyecto</span>
+          <span class="cmd-desc">Inicializa cualquier proyecto con la <strong>estructura spec-first</strong>: carpetas, CLAUDE.md y borrador de las 6 secciones</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd wide">/daily</span>
+          <span class="cmd-desc">Lee el git log y el CLAUDE.md, genera un <strong>resumen del día</strong>: qué se completó, qué sigue y próximo paso</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COL 3: Flujo y crea las tuyas -->
+    <div class="col">
+      <div class="section">
+        <div class="section-label">Workflow completo con Skills</div>
+
+        <div style="font-size:10.5px; line-height:2.1; color:#555;">
+          <span style="color:#d97706; font-weight:600;">Antes de empezar</span><br/>
+          &nbsp;&nbsp;<span class="key" style="font-size:9px;">/spec-check</span> &nbsp;→&nbsp; <span style="color:#6b7280;">valida la spec</span><br/>
+          <span style="color:#d97706; font-weight:600;">Mientras construyes</span><br/>
+          &nbsp;&nbsp;<span class="key" style="font-size:9px;">/revisar</span> &nbsp;→&nbsp; <span style="color:#6b7280;">compara con la spec</span><br/>
+          &nbsp;&nbsp;<span class="key" style="font-size:9px;">/explicar</span> &nbsp;→&nbsp; <span style="color:#6b7280;">entiende lo generado</span><br/>
+          <span style="color:#d97706; font-weight:600;">Al terminar la sesión</span><br/>
+          &nbsp;&nbsp;<span class="key" style="font-size:9px;">/commit</span> &nbsp;→&nbsp; <span style="color:#6b7280;">commit automático</span><br/>
+          &nbsp;&nbsp;<span class="key" style="font-size:9px;">/daily</span> &nbsp;→&nbsp; <span style="color:#6b7280;">resumen del día</span><br/>
+          <span style="color:#d97706; font-weight:600;">Proyecto nuevo</span><br/>
+          &nbsp;&nbsp;<span class="key" style="font-size:9px;">/nuevo-proyecto</span> &nbsp;→&nbsp; <span style="color:#6b7280;">spec-first listo</span>
+        </div>
+      </div>
+
+      <div class="h-divider"></div>
+
+      <div class="section">
+        <div class="section-label green">Crea tus propias skills</div>
+
+        <div class="cmd-row">
+          <span class="cmd-desc" style="padding-top:0;"><strong>1.</strong> Identifica una instrucción que repites en cada sesión</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd-desc"><strong>2.</strong> Crea el archivo en <code style="font-family:'JetBrains Mono',monospace; font-size:9.5px; background:#182818; color:#86efac; padding:1px 5px; border-radius:3px;">.claude/skills/nombre.md</code></span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd-desc"><strong>3.</strong> Escribe la instrucción en lenguaje natural — como le hablarías a Claude</span>
+        </div>
+        <div class="cmd-row">
+          <span class="cmd-desc"><strong>4.</strong> Usa <code style="font-family:'JetBrains Mono',monospace; font-size:9.5px; background:#182818; color:#86efac; padding:1px 5px; border-radius:3px;">/nombre</code> desde la terminal</span>
+        </div>
+
+        <div class="tip-box" style="margin-top:10px;">
+          <div class="box-label">Recuerda</div>
+          <p>Una skill es una <strong>especificación para un comando</strong>. Ya sabes escribir especificaciones — eso es exactamente lo que aprendiste en el Módulo 1.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <span>Recurso del curso · Construye con IA: De la Idea al Producto con Claude</span>
+    <span class="pg">Página 3 de 3 — Skills Personalizadas</span>
+    <span class="url">dominicode.com</span>
+  </div>
+</div>
+
+</body>
+</html>
