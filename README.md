@@ -111,7 +111,7 @@ Si el curso te enseña a construir un producto de cero con IA, el libro te da el
 
 Sin método, la IA te produce código. Con método, te produce el software que necesitas.
 
-[→ Consigue el libro](https://dominicode.com/spec-driven-development)
+[→ Consigue el libro](https://leanpub.com/sdd-spec-driven-development)
 
 ---
 
@@ -132,19 +132,13 @@ También incluye hooks automáticos: bloqueo de comandos destructivos, detecció
 
 Compatible con Claude Code, Cursor y GitHub Copilot.
 
-[→ Ver repositorio](https://github.com/dominicode/ai-workflow-kit)
+[→ Ver repositorio](https://github.com/bezael/ai-workflow-kit)
 
 ---
 
 ## Recursos adicionales
 
 - [DominiCode](https://dominicode.com) — Blog, cursos y recursos
-
----
-
-## Licencia
-
-Los recursos de este repo son para uso personal de los estudiantes del curso. No redistribuir ni usar con fines comerciales sin permiso del autor.
 
 ---
 
