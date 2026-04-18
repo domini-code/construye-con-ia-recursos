@@ -23,7 +23,8 @@ Todos los recursos que usarás durante el curso: plantillas, ejercicios por mód
 ├── modulo-02-arquitectura/
 │   └── ejercicios.md                — Ejercicios de arquitectura del proyecto
 ├── modulo-03-backend/
-│   └── ejercicios.md                — Ejercicios del backend: motor de specs
+│   ├── ejercicios.md                — Ejercicios del backend: motor de specs
+│   └── system-prompt.md             — Prompts de iteración + SYSTEM_PROMPT final del Video 14
 ├── modulo-04-frontend/
 │   └── ejercicios.md                — Ejercicios del frontend: interfaz del generador
 ├── modulo-05-deploy/
@@ -64,7 +65,7 @@ Incluye las 6 secciones de una especificación técnica completa:
 | 0 — Setup        | Bienvenida y configuración del entorno    | [→ Ver](./modulo-00-setup/ejercicios.md)        |
 | 1 — Spec-First   | El método que cambia cómo trabajas con IA | [→ Ver](./modulo-01-spec-first/ejercicios.md)   |
 | 2 — Arquitectura | Diseño del proyecto antes de construir    | [→ Ver](./modulo-02-arquitectura/ejercicios.md) |
-| 3 — Backend      | El motor de specs: API Route + Claude     | [→ Ver](./modulo-03-backend/ejercicios.md)      |
+| 3 — Backend      | El motor de specs: API Route + Claude     | [→ Ejercicios](./modulo-03-backend/ejercicios.md) · [→ System Prompt (Video 14)](./modulo-03-backend/system-prompt.md) |
 | 4 — Frontend     | La interfaz del AI Spec Builder           | [→ Ver](./modulo-04-frontend/ejercicios.md)     |
 | 5 — Deploy       | Tu herramienta en producción con Vercel   | [→ Ver](./modulo-05-deploy/ejercicios.md)       |
 | 6 — Seguridad    | Protege tu app con IA                     | [→ Ver](./modulo-06-seguridad/ejercicios.md)    |
