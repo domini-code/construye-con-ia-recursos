@@ -29,7 +29,7 @@ Cuando el usuario alcanza el límite del plan Free, la API devuelve 402 y el fro
 
 ## Schema SQL adicional
 
-Ejecutar en el SQL Editor de Supabase antes de `opsx apply`:
+Ejecutar en el SQL Editor de Supabase antes de `/opsx:apply`:
 
 ```sql
 create table user_plans (
@@ -88,14 +88,81 @@ MODIFIED: app/page.tsx o app/app/analyzer/page.tsx — gestiona respuesta 402 y 
 **Opción A — apply directo:**
 ```bash
 cp spec-stripe-payments.md openspec/changes/stripe-payments/proposal.md
-opsx apply
-opsx archive
+/opsx:apply
+/opsx:archive
 ```
 
 **Opción B — como referencia para propose:**
 ```bash
-opsx propose "Add Stripe payments. Free plan: 5 analyses/month, block with 402 when exceeded.
+/opsx:propose "Add Stripe payments. Free plan: 5 analyses/month, block with 402 when exceeded.
 Pro plan: unlimited. On 402, show UpgradeModal with checkout button. POST /api/checkout creates
 a Stripe Checkout Session. POST /api/webhooks/stripe verifies signature and sets plan='pro' in
 Supabase user_plans table on checkout.session.completed. Add getUserPlan(userId) in lib/plans.ts."
+```
+
+---
+
+## Prompts literales por video
+
+Si prefieres pedirle cada pieza a Claude Code por separado en vez de aplicar la spec completa, estos son los prompts tal como se piden en el guión.
+
+### Video 19 — `lib/usage.ts` (contador de uso mensual)
+
+```
+Crea lib/usage.ts con la función getMonthlyUsage(userId: string): Promise<number>.
+Usa el cliente de servidor de Supabase (lib/supabase/server.ts). Cuenta las filas de la
+tabla 'analyses' donde user_id = userId y created_at >= el primer día del mes natural actual.
+Devuelve el conteo (0 si no hay ninguno). Lanza un error descriptivo si la query falla.
+```
+
+Resultado esperado:
+
+```typescript
+import { createClient } from '@/lib/supabase/server';
+
+export async function getMonthlyUsage(userId: string): Promise<number> {
+  const supabase = await createClient();
+  const now = new Date();
+  const startOfMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
+
+  const { count, error } = await supabase
+    .from('analyses')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', userId)
+    .gte('created_at', startOfMonth.toISOString());
+
+  if (error) throw new Error(`No se pudo contar el uso mensual: ${error.message}`);
+  return count ?? 0;
+}
+```
+
+### Video 20 — Bloqueo del plan gratuito (402)
+
+```
+En la API route de análisis, antes de llamar a Claude:
+1. Obtén el plan del usuario con getUserPlan(userId)
+2. Si el plan es 'free', obtén el uso mensual con getMonthlyUsage(userId)
+3. Si el uso >= 5, devuelve 402 con el mensaje "Límite del plan gratuito alcanzado"
+En el frontend, cuando la API devuelva 402, muestra un modal de upgrade con el botón "Activar Plan Pro"
+```
+
+### Video 21 — `POST /api/checkout`
+
+```
+Crea una API route POST /api/checkout que:
+1. Reciba el userId del usuario autenticado
+2. Cree o recupere el customer de Stripe para ese userId
+3. Cree una Checkout Session para el STRIPE_PRICE_ID del Plan Pro
+4. Devuelva la URL del checkout de Stripe
+El frontend redirige a esa URL cuando el usuario hace click en "Activar Plan Pro"
+```
+
+### Video 22 — `POST /api/webhooks/stripe`
+
+```
+Crea una API route POST /api/webhooks/stripe que:
+1. Verifique la firma del webhook con STRIPE_WEBHOOK_SECRET
+2. En el evento checkout.session.completed, actualice la tabla user_plans:
+   - plan: 'pro'
+   - stripe_customer_id y stripe_subscription_id del evento
 ```

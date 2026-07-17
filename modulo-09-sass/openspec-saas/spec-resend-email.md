@@ -94,14 +94,41 @@ alter table user_plans
 **Opción A — apply directo:**
 ```bash
 cp spec-resend-email.md openspec/changes/resend-email/proposal.md
-opsx apply
-opsx archive
+/opsx:apply
+/opsx:archive
 ```
 
 **Opción B — como referencia para propose:**
 ```bash
-opsx propose "Add Resend transactional email. Three emails: (1) welcome on new user registration,
+/opsx:propose "Add Resend transactional email. Three emails: (1) welcome on new user registration,
 (2) limit-reached when API returns 402 for the first time this month — send only once per month,
 store limit_email_sent_at in user_plans, (3) pro-activated when Stripe webhook completes payment.
 Create lib/email.ts with the three send functions. Use RESEND_API_KEY and EMAIL_FROM env vars."
 ```
+
+---
+
+## Prompts literales por video
+
+Si prefieres pedirle cada email a Claude Code por separado en vez de aplicar la spec completa, estos son los prompts tal como se piden en el guión.
+
+### Video 24 — Email 1: bienvenida al registrarse
+
+```
+En la ruta /auth/callback, tras intercambiar el code por sesión con Supabase,
+comprueba si el usuario es nuevo (user.created_at === user.updated_at con margen de 5s).
+Si es nuevo, envía un email de bienvenida con Resend desde hola@[dominio]
+al user.email con el asunto "Bienvenido — tienes 5 análisis gratuitos".
+```
+
+### Video 24 — Email 2: al llegar al límite del plan gratuito
+
+```
+Cuando el usuario alcanza el límite y la API devuelve 402,
+envía un email informando del límite con un enlace directo al checkout de Stripe.
+Usa un flag en la sesión o Supabase para enviarlo solo una vez por mes — no en cada intento.
+```
+
+### Video 24 — Email 3: confirmación tras activar el Plan Pro
+
+No tiene un prompt propio en el guión — se añade directamente al webhook de Stripe `checkout.session.completed` que ya se construyó en el Video 22 (`POST /api/webhooks/stripe`), pidiéndole a Claude Code que envíe el email de confirmación en ese mismo handler tras activar el plan.

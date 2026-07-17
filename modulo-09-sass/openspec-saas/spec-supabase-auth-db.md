@@ -1,7 +1,7 @@
 # Spec: Supabase — Auth + Base de datos
 
 > Spec pre-escrita lista para usar con OpenSpec.  
-> Copia este archivo a tu proyecto y ejecuta `opsx apply` — o úsalo como referencia al escribir tu propio `opsx propose`.
+> Copia este archivo a tu proyecto y ejecuta `/opsx:apply` — o úsalo como referencia al escribir tu propio `/opsx:propose`.
 
 ---
 
@@ -27,7 +27,7 @@ Añadir autenticación y persistencia de datos a la app usando Supabase como ún
 
 ## Schema SQL
 
-Ejecutar en el SQL Editor de Supabase antes de `opsx apply`:
+Ejecutar en el SQL Editor de Supabase antes de `/opsx:apply`:
 
 ```sql
 -- Tabla de análisis
@@ -91,13 +91,13 @@ MODIFIED: app/page.tsx                 — muestra avatar del usuario en el nav;
 ```bash
 # Copia este archivo como proposal.md en tu carpeta de OpenSpec
 cp spec-supabase-auth-db.md openspec/changes/supabase-auth-db/proposal.md
-opsx apply
-opsx archive
+/opsx:apply
+/opsx:archive
 ```
 
 **Opción B — como referencia para propose:**
 ```bash
-opsx propose "Add Supabase auth and database. Auth: email/password and Google OAuth,
+/opsx:propose "Add Supabase auth and database. Auth: email/password and Google OAuth,
 protect /app/* routes, show user avatar in nav. DB: persist each analysis to 'analyses'
 table (user_id, input_text, result jsonb, items_count). Add GET /api/analyses returning
 last 10 for current user. Add getMonthlyUsage(userId) in lib/usage.ts."

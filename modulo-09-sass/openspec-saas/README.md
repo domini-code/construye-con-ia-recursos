@@ -1,12 +1,13 @@
 # SaaS OpenSpec Bundle
 
-Tres specs pre-escritas para convertir cualquier app Next.js en un SaaS completo usando OpenSpec.
+Tres specs pre-escritas para convertir cualquier app Next.js en un SaaS completo usando OpenSpec, más el prompt del master proposal que las plantea juntas (Video 14).
 
 ## Orden de instalación
 
-Las specs tienen dependencias — aplícalas en este orden:
+Primero el master proposal, luego las specs en orden — tienen dependencias:
 
 ```
+0. master-proposal.md         → El plan completo (Video 14) — opcional, da contexto
 1. spec-supabase-auth-db.md   → Auth + Base de datos
 2. spec-stripe-payments.md    → Plan Free vs. Pro
 3. spec-resend-email.md       → Email transaccional
@@ -19,10 +20,10 @@ Las specs tienen dependencias — aplícalas en este orden:
 cp spec-supabase-auth-db.md openspec/changes/supabase-auth-db/proposal.md
 
 # 2. Aplica
-opsx apply
+/opsx:apply
 
 # 3. Archiva
-opsx archive
+/opsx:archive
 
 # Repite para Stripe y Resend
 ```
