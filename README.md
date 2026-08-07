@@ -31,6 +31,8 @@ Todos los recursos que usarás durante el curso: plantillas, ejercicios por mód
 │   └── ejercicios.md                — Ejercicios de deploy en Vercel
 ├── modulo-06-seguridad/
 │   └── ejercicios.md                — Ejercicios de seguridad con IA
+├── modulo-bonus/
+│   └── bonus-01..07.md              — Prompts literales de los 7 vídeos del Bonus (lecciones 22-28)
 ├── modulo-09-build/
 │   └── prompts-build.md              — Prompts literales por video: la app base del Feedback Analyzer (Videos 1-12)
 ├── modulo-09-sass/
@@ -73,6 +75,7 @@ Incluye las 6 secciones de una especificación técnica completa:
 | 4 — Frontend     | La interfaz del AI Spec Builder           | [→ Ver](./modulo-04-frontend/ejercicios.md)     |
 | 5 — Deploy       | Tu herramienta en producción con Vercel   | [→ Ver](./modulo-05-deploy/ejercicios.md)       |
 | 6 — Seguridad    | Protege tu app con IA                     | [→ Ver](./modulo-06-seguridad/ejercicios.md)    |
+| Bonus — Evoluciona tu App | Los 7 vídeos del Bonus: export, streaming, historial, login, retrofit, home page | [→ Ver prompts](./modulo-bonus/README.md) |
 | 9 — Feedback Analyzer (build) | La app base: clasificador, API, frontend | [→ Ver prompts](./modulo-09-build/prompts-build.md) |
 | 9 — Feedback Analyzer (SaaS) | Auth + Pagos + Email transaccional | [→ Ver specs OpenSpec](./modulo-09-sass/openspec-saas/README.md) |
 
@@ -96,7 +99,9 @@ Registra gastos de grupo en un viaje, calcula cuánto debe cada persona y genera
 
 **Stack:** React 19 + TypeScript + Vite + localStorage (sin backend, sin login)
 
-[→ Ver demo](./demo/demo-retrofit-gastos/)
+[→ Ver demo](./demo/demo-retrofit-gastos/) · [→ Prompts del vídeo](./modulo-bonus/bonus-06-retrofit.md)
+
+> **Ojo:** la carpeta incluye `SPEC.md` y `CLAUDE.md`, que son **el resultado** del vídeo. Si quieres hacer el ejercicio de verdad, bórralos antes de empezar y genéralos tú con los 3 prompts del retrofit.
 
 ---
 
